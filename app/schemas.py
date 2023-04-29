@@ -3,6 +3,8 @@ from pydantic.types import conint
 from datetime import datetime
 from typing import Optional
 from .models import User
+import attr
+
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -32,6 +34,7 @@ class TokenData(BaseModel):
     id: Optional[str] = None
 
 
+@attr.s
 class PostBase(BaseModel):
     title: str
     content: str
@@ -41,6 +44,7 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     pass
 
+@attr.s
 class Post(PostBase):
     id: int
     created_at: datetime
@@ -50,7 +54,14 @@ class Post(PostBase):
     class Config:
         orm_mode = True
 
+    def __dict__(self):
+        return self.__dict__
 
+
+class PostOut(Post):
+    votes: int
+    class Config:
+        orm_mode = True
 
 class Vote(BaseModel):
     post_id: int

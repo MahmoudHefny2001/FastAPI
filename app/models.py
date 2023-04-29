@@ -3,7 +3,9 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
+import attr
 
+@attr.s
 class Post(Base):
     __tablename__ = 'posts'
 
@@ -20,6 +22,7 @@ class Post(Base):
         nullable=False, 
         server_default=text('now()')
     )
+
 
 
 class User(Base):
